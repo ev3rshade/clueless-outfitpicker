@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", UserSchema);
 
 function authMiddleware(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
