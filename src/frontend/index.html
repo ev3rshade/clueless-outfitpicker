@@ -1,15 +1,40 @@
 <!DOCTYPE html>
-<html>
-	<head>
-    	<meta charset="UTF-8" />
-    	<title>Clueless</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clueless</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    	<link rel="stylesheet" href="./styles/theme.css" />
-  	</head>
+    <link rel="stylesheet" href="style/theme.css" />
+  </head>
 
-  	<body>
-    	<div id="root"></div>
+  <body style="margin:0; padding:0; background:#f9f9f9;">
+    <!-- Navigation Bar (for testing only) -->
+    <nav
+      id="test-navbar"
+      style="
+        width: 100%;
+        padding: 15px 30px;
+        background: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        font-family: sans-serif;
+      "
+    >
+      <div style="font-size: 24px; font-weight: bold;">Clueless</div>
 
-    	<script type="module" src="main.js"></script>
-  	</body>
+      <div style="display:flex; gap:20px;">
+        <a href="/account">Account</a>
+        <a href="/wardrobe">Wardrobe</a>
+        <a href="/login">Logout</a>
+      </div>
+    </nav>
+
+    <!-- React Application Root -->
+    <div id="root"></div>
+
+    <!-- React Main Script -->
+    <script type="module" src="/main.jsx"></script>
+  </body>
 </html>
