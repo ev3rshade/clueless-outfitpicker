@@ -118,3 +118,111 @@ button {
   justify-content: space-between;
   align-items: center;
 }
+
+/* === Saved Outfits Page Specifics === */
+
+/* The large brown container */
+.outfits-container {
+  background-color: var(--warm-clay);
+  border-radius: 40px; /* Large rounded corners */
+  padding: 40px 60px;
+  margin: 20px auto;
+  max-width: 1200px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.outfits-header {
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  color: #000; /* The title in the image is black/dark */
+  margin-bottom: 40px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Specific Grid for this page (4 columns instead of 3) */
+.saved-outfits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns as per image */
+  gap: 30px;
+  justify-content: center;
+}
+
+/* The individual cards inside the brown box */
+.saved-outfit-card {
+  background: var(--latte); /* Matches the body background */
+  border-radius: 5px;
+  padding: 15px 15px 25px 15px; /* Extra padding at bottom for text */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.saved-outfit-card:hover {
+  transform: translateY(-5px);
+}
+
+.saved-outfit-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Perfect square */
+  background-color: #d9d9d9; /* Gray placeholder color */
+  border-radius: 2px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.saved-outfit-name {
+  font-size: 1.2rem;
+  color: #000;
+  margin: 0;
+}
+
+/* Top Navigation Bar Styles */
+.top-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+}
+
+.account-btn {
+  background-color: #2c2c2c; /* Dark charcoal */
+  color: white;
+  padding: 10px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+/* Bottom Circular Icons */
+.bottom-nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 150px; /* Wide spacing as seen in image */
+  padding: 30px 0;
+  margin-top: 20px;
+  border-top: 1px solid #ccc; /* The thin line in the design */
+}
+
+.nav-circle-btn {
+  width: 60px;
+  height: 60px;
+  background-color: #2c2c2c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-circle-btn:hover {
+  background-color: var(--warm-clay);
+}
