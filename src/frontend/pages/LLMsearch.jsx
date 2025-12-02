@@ -4,7 +4,11 @@ import React, { useState } from "react";
 export default function OutfitInspiration() {
   const [showResults, setShowResults] = useState(false);
 
+  /**
+   * Handles user prompt submission to generate an outfit
+   */
   function handleSearch() {
+
     setShowResults(true);
   }
 
@@ -64,7 +68,7 @@ export default function OutfitInspiration() {
           border: "1px solid #f2d8c3",
         }}
       >
-        <span style={{ fontSize: "20px" }}>🔍</span>
+        <button style={{ fontSize: "20px", border: "0px", backgroundColor:"transparent" }} onClick={() => handleSearch()}>🔍</button>
         <input
           type="text"
           placeholder="User typed prompt..."
@@ -79,7 +83,6 @@ export default function OutfitInspiration() {
             if (e.key === "Enter") handleSearch();
           }}
         />
-        <span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span>
       </div>
 
       <div style={{ display: "flex", gap: "40px" }}>
