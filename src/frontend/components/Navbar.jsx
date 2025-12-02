@@ -37,7 +37,7 @@ export default function Navbar() {
         </Link>
 
         <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-          Logout
+          Login
         </Link>
       </div>
     </nav>

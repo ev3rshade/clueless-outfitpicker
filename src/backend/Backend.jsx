@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -9,6 +10,7 @@ const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
 const { OpenAI } = require("openai");
+const User = require("./models/User");
 
 dotenv.config();
 
@@ -26,27 +28,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const userSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  age: Number,
-  email: { type: String, unique: true },
-  password: String,
-  profilePic: String, // URL
-  recentSearches: { type: [String], default: [] },
-  savedOutfits: {
-    type: [
-      {
-        name: String,
-        image: String,
-      },
-    ],
-    default: [],
-  },
-});
-
-const User = mongoose.model("User", UserSchema);
 
 function authMiddleware(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
