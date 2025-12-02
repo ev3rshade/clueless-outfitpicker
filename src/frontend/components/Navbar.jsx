@@ -28,6 +28,14 @@ export default function Navbar() {
           Wardrobe
         </Link>
 
+        <Link to="/outfits" style={{ textDecoration: "none", color: "black" }}>
+          My Oufits
+        </Link>
+
+        <Link to="/llmsearch" style={{ textDecoration: "none", color: "black" }}>
+          Generate Oufit
+        </Link>
+
         <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
           Logout
         </Link>
