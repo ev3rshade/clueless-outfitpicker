@@ -116,7 +116,7 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <label style={{ marginTop: "5px", fontWeight: "bold" }}>
+        {/* <label style={{ marginTop: "5px", fontWeight: "bold" }}>
           Profile Picture
         </label>
 
@@ -124,7 +124,7 @@ export default function Signup() {
           type="file"
           style={{ marginBottom: "10px" }}
           onChange={(e) => setProfilePic(e.target.files[0])}
-        />
+        /> */}
 
         <button
           style={{
