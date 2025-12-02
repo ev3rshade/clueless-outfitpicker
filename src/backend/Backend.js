@@ -4,17 +4,20 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+
 require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
-const { OpenAI } = require("openai");
+
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -152,6 +155,58 @@ app.get("/account", authMiddleware, async (req, res) => {
   }
 });
 
+
+app.post("/outfit", async (req, res) => {
+  try {
+    const { prompt, requirements } = req.body;
+
+    const geminiPrompt = `
+      You analyze a text prompt and a list of requirements.
+      Identify clothing pieces the user owns based on the images.
+      Recommend a full outfit.
+
+      Respond ONLY in clean JSON, like this:
+
+      {
+        "items": [
+          { "name": "", "pieces": [], "notes": "" }
+        ],
+        "imagePrompt": "describe the outfit visually"
+      }
+    `;
+
+    const responseText = await callGeminiJSON(geminiPrompt + "\n" + prompt, requirements);
+    const outfit = JSON.parse(responseText);
+
+
+    const imagePrompt = `
+      Create a hyperrealistic full-body outfit image.
+
+      Outfit items:
+      ${outfit.items.map((i) => "- " + i.name).join("\n")}
+
+      Additional style direction:
+      ${outfit.imagePrompt}
+
+      Requirements:
+      - white background
+      - fashion editorial lighting
+      - extremely high detail
+    `;
+
+    const base64Image = await callGeminiImage(imagePrompt);
+
+    res.json({
+      success: true,
+      outfit,
+      outfitImage: base64Image,
+    });
+
+  } catch (err) {
+    console.error("API Error:", err);
+    res.status(500).json({ error: "Could not generate outfit." });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 
