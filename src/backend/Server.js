@@ -1,18 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-
-require("dotenv").config();
-const express = require("express");
-const multer = require("multer");
-const axios = require("axios");
-const User = require("./models/User");
-const Outfit = require("./models/Outfit");
-const Cloth = require("./models/Cloth");
+import multer from "multer";
+import axios from "axios";
+import User from "./models/User.js";
+import Outfit from "./models/Outfit.js";
+import Cloth from "./models/Cloth.js";
 
 dotenv.config();
 
