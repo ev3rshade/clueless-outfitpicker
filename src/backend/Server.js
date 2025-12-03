@@ -10,14 +10,22 @@ import User from "./models/User.js";
 import Outfit from "./models/Outfit.js";
 import Cloth from "./models/Cloth.js";
 
+import { GoogleGenAI } from "@google/genai";
+
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors(
+  
+));
 app.use(express.json());
 
-const GEMINI_KEY = process.env.GEMINI_API_KEY;
+// gemini API
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY
+});
 
+// ----------------- MONGO CONNECTION -----------------
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
@@ -25,28 +33,71 @@ mongoose
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-
+// ----------------- AUTH -----------------
 function authMiddleware(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
-
   if (!token) return res.status(401).json({ error: "No token provided" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; 
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
     next();
-  } catch (err) {
-    return res.status(401).json({ error: "Invalid token" });
+  } catch {
+    res.status(401).json({ error: "Invalid token" });
   }
 }
 
+// ----------------- GEMINI HELPERS -----------------
+
+async function callGeminiJSON(prompt) {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-lite",
+      contents: prompt,
+    });
+
+    return response.text;
+
+  } catch (err) {
+    console.error("❌ Gemini JSON Error:", err.response?.data || err);
+    throw new Error("Gemini JSON generation failed");
+  }
+}
+
+async function callGeminiImage(prompt) {
+  try {
+    const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash-preview-image-generation",
+        contents: prompt,
+      }
+    );
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.text) {
+        console.log(part.text);
+        console.error("❌ Gemini Returned text");
+        throw new Error("Gemini returned text instead of an image");
+      
+      } else if (part.inlineData) {
+        const imageData = part.inlineData.data;
+        console.log("image received" + imageData);
+        return imageData;
+
+      }
+    }
+
+  } catch (err) {
+    console.error("❌ Gemini Image Error:", err.response?.data || err);
+    throw new Error("Gemini image generation failed");
+  }
+}
+
+// ----------------- SIGNUP -----------------
 app.post("/signup", async (req, res) => {
   try {
     const { email, username, name, age, password } = req.body;
 
-    if (!email || !username || !name || !age || !password) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
+    if (!email || !username || !name || !age || !password)
+      return res.status(400).json({ error: "All fields required" });
 
     const existingEmail = await User.findOne({ email });
     const existingUsername = await User.findOne({ username });
@@ -54,19 +105,16 @@ app.post("/signup", async (req, res) => {
     if (existingEmail) return res.status(400).json({ error: "Email already in use" });
     if (existingUsername) return res.status(400).json({ error: "Username already in use" });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
       email,
       username,
       name,
       age,
-      password: hashedPassword,
+      password: await bcrypt.hash(password, 10),
     });
 
     await user.save();
-
-    return res.status(201).json({ message: "Signup successful!" });
+    res.status(201).json({ message: "Signup successful!" });
 
   } catch (err) {
     console.error("Signup error:", err);
@@ -74,6 +122,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// ----------------- LOGIN -----------------
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -82,18 +131,13 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Email and password required" });
 
     const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ error: "Email not found" });
+    if (!user) return res.status(400).json({ error: "Email not found" });
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid)
-      return res.status(401).json({ error: "Invalid password" });
+    if (!valid) return res.status(401).json({ error: "Invalid password" });
 
     const token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-      },
+      { id: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -115,13 +159,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
+// ----------------- ACCOUNT -----------------
 app.get("/account", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email }).select("-password");
-
     if (!user) return res.status(404).json({ error: "User not found" });
-
     res.json({ user });
 
   } catch (err) {
@@ -130,18 +172,17 @@ app.get("/account", authMiddleware, async (req, res) => {
   }
 });
 
-
+// ----------------- OUTFIT GENERATION -----------------
 app.post("/outfit", async (req, res) => {
   try {
     const { prompt, requirements } = req.body;
 
     const geminiPrompt = `
       You analyze a text prompt and a list of requirements.
-      Identify clothing pieces the user owns based on the images.
       Recommend a full outfit.
-
-      Respond ONLY in clean JSON, like this:
-
+      Respond ONLY in valid JSON:
+      Outfit details:
+      ${requirements.join("\n")}
       {
         "items": [
           { "name": "", "pieces": [], "notes": "" }
@@ -153,16 +194,12 @@ app.post("/outfit", async (req, res) => {
     const responseText = await callGeminiJSON(geminiPrompt + "\n" + prompt, requirements);
     const outfit = JSON.parse(responseText);
 
-
     const imagePrompt = `
       Create a hyperrealistic full-body outfit image.
-
       Outfit items:
       ${outfit.items.map((i) => "- " + i.name).join("\n")}
-
       Additional style direction:
       ${outfit.imagePrompt}
-
       Requirements:
       - white background
       - fashion editorial lighting
@@ -183,8 +220,8 @@ app.post("/outfit", async (req, res) => {
   }
 });
 
+// ----------------- START SERVER -----------------
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 );
