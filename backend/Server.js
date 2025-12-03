@@ -94,7 +94,7 @@ async function callGeminiImage(prompt) {
 // ----------------- SIGNUP -----------------
 app.post("/signup", async (req, res) => {
   try {
-    const { email, username, name, age, password } = req.body;
+    const { email, name, age, password } = req.body;
 
     if (!email || !username || !name || !age || !password)
       return res.status(400).json({ error: "All fields required" });
@@ -107,7 +107,6 @@ app.post("/signup", async (req, res) => {
 
     const user = new User({
       email,
-      username,
       name,
       age,
       password: await bcrypt.hash(password, 10),
@@ -147,7 +146,6 @@ app.post("/login", async (req, res) => {
       token,
       user: {
         email: user.email,
-        username: user.username,
         name: user.name,
         age: user.age,
       },

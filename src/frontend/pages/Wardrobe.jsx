@@ -4,7 +4,7 @@ export default function Wardrobe() {
   return (
     <div
       className="page-container"
-      style={{ display: "flex", padding: "20px", fontFamily: "sans-serif" }}
+      style={{ display: "flex", padding: "20px", fontFamily: "--font-primary" }}
     >
       {/* Sidebar Filters */}
       <div

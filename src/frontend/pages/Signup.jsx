@@ -3,33 +3,53 @@ import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   async function handleSignup() {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("username", username);
-    formData.append("age", age);
-    formData.append("email", email);
-    formData.append("password", password);
-    if (profilePic) formData.append("profilePic", profilePic);
+    // Validation
+    if (!name || !email || !age || !password || !confirmPassword) {
+      alert("All fields are required");
+      return;
+    }
 
-    const res = await fetch("http://localhost:3000/signup", {
-      method: "POST",
-      body: formData,
-    });
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-    const data = await res.json();
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
 
-    if (res.ok) {
-      alert("Account created!");
-      window.location.href = "/login";
-    } else {
-      alert(data.error);
+    try {
+      const res = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          age,
+          password
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Account created successfully!");
+        window.location.href = "/login";
+      } else {
+        alert(data.error || "Signup failed");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("Failed to connect to server. Please make sure the backend is running on port 5000.");
     }
   }
 
@@ -58,7 +78,8 @@ export default function Signup() {
       >
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Full Name"
+          value={name}
           style={{
             padding: "12px",
             borderRadius: "8px",
@@ -69,32 +90,9 @@ export default function Signup() {
         />
 
         <input
-          type="text"
-          placeholder="Username"
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          type="number"
-          placeholder="Age"
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
-          onChange={(e) => setAge(e.target.value)}
-        />
-
-        <input
           type="email"
           placeholder="Email"
+          value={email}
           style={{
             padding: "12px",
             borderRadius: "8px",
@@ -105,8 +103,22 @@ export default function Signup() {
         />
 
         <input
+          type="number"
+          placeholder="Age"
+          value={age}
+          style={{
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+          }}
+          onChange={(e) => setAge(e.target.value)}
+        />
+
+        <input
           type="password"
           placeholder="Password"
+          value={password}
           style={{
             padding: "12px",
             borderRadius: "8px",
@@ -114,6 +126,19 @@ export default function Signup() {
             fontSize: "16px",
           }}
           onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          style={{
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+          }}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
         <label style={{ marginTop: "5px", fontWeight: "bold" }}>
