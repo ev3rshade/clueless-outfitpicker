@@ -1,56 +1,62 @@
-// src/pages/OutfitInspiration.jsx
 import React, { useState } from "react";
 
 export default function OutfitInspiration() {
-  const [showResults, setShowResults] = useState(false);
+  const [userPrompt, setUserPrompt] = useState("");
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [outfitResult, setOutfitResult] = useState(null);
+  const [error, setError] = useState(null);
 
-  function handleSearch() {
-    setShowResults(true);
+  async function handleSearch() {
+    setLoading(true);
+    setError(null);
+    setOutfitResult(null);
+
+    try {
+      const PORT = 5000 || 3000;
+      const response = await fetch(`http://localhost:${PORT}/outfit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: userPrompt,
+          requirements: activeFilters, // optional for now
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        setError("Could not generate outfit.");
+        return;
+      }
+
+      setOutfitResult(data);
+    } catch (err) {
+      console.error(err);
+      setError("Server error. Try again.");
+    }
+
+    setLoading(false);
   }
 
   return (
     <div style={{ fontFamily: "sans-serif", padding: "20px 40px" }}>
-      {/* Header */}
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "40px",
-        }}
-      >
-        <img
-          src="/logo-black.png"
-          alt="Clueless Logo"
-          style={{ height: "40px" }}
-        />
-        <button
-          style={{
-            padding: "10px 25px",
-            borderRadius: "25px",
-            border: "1px solid #000",
-            background: "#fff",
-            fontSize: "14px",
-          }}
-        >
+      
+      {/* HEADER */}
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
+        <img src="/logo-black.png" alt="Logo" style={{ height: "40px" }} />
+        <button style={{ padding: "10px 25px", borderRadius: "25px", border: "1px solid #000", background: "#fff" }}>
           My Account
         </button>
       </header>
 
-      {/* Title */}
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: "38px",
-          fontWeight: "300",
-          letterSpacing: "2px",
-          marginBottom: "30px",
-        }}
-      >
+      <h1 style={{ textAlign: "center", fontSize: "38px", fontWeight: "300", letterSpacing: "2px" }}>
         OUTFIT INSPIRATION
       </h1>
 
-      {/* Search Bar */}
+      {/* SEARCH BAR */}
       <div
         style={{
           background: "#FAE9D5",
@@ -65,24 +71,22 @@ export default function OutfitInspiration() {
         }}
       >
         <span style={{ fontSize: "20px" }}>🔍</span>
+
         <input
           type="text"
-          placeholder="User typed prompt..."
-          style={{
-            flex: 1,
-            border: "none",
-            background: "transparent",
-            outline: "none",
-            fontSize: "16px",
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSearch();
-          }}
+          placeholder="Describe the outfit you want..."
+          value={userPrompt}
+          onChange={(e) => setUserPrompt(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
         />
+
         <span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span>
       </div>
 
+      {/* LAYOUT */}
       <div style={{ display: "flex", gap: "40px" }}>
+
         {/* FILTER SIDEBAR */}
         <div
           style={{
@@ -93,23 +97,11 @@ export default function OutfitInspiration() {
             height: "fit-content",
           }}
         >
-          <div style={{ textAlign: "center", marginBottom: "10px" }}>
-            Filter By
-          </div>
+          <div style={{ textAlign: "center", marginBottom: "10px" }}>Filter By</div>
 
-          {/* Category */}
           <details open style={{ marginBottom: "15px" }}>
-            <summary
-              style={{
-                cursor: "pointer",
-                fontWeight: "bold",
-                marginBottom: "8px",
-              }}
-            >
-              Category
-            </summary>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Category</summary>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "8px" }}>
               {["Tops", "Bottoms", "Dresses", "Outerwear"].map((c) => (
                 <button
                   key={c}
@@ -128,25 +120,16 @@ export default function OutfitInspiration() {
             </div>
           </details>
 
-          {/* Color */}
           <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-              Color
-            </summary>
+            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Color</summary>
           </details>
 
-          {/* Occasion */}
           <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-              Occasion
-            </summary>
+            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Occasion</summary>
           </details>
 
-          {/* Weather */}
           <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-              Weather
-            </summary>
+            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Weather</summary>
           </details>
 
           <button
@@ -165,50 +148,69 @@ export default function OutfitInspiration() {
           </button>
         </div>
 
-        {/* OUTFIT RESULTS (Hidden until search) */}
-        {showResults && (
-          <div
-            style={{
-              flex: 1,
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "30px",
-            }}
-          >
-            {[1, 2, 3].map((num) => (
+        {/* RESULTS */}
+        <div style={{ flex: 1 }}>
+
+          {loading && <h2>⏳ Generating outfit…</h2>}
+          {error && <h2 style={{ color: "red" }}>{error}</h2>}
+
+          {/* SHOW RESULT FROM BACKEND */}
+          {outfitResult && (
+            <div style={{ display: "flex", gap: "40px" }}>
+              
+              {/* AI IMAGE */}
               <div
-                key={num}
                 style={{
                   background: "#C78C5E",
                   height: "420px",
+                  width: "320px",
                   borderRadius: "10px",
                   padding: "20px",
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
                   alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <h2 style={{ marginBottom: "10px" }}>OUTFIT {num}</h2>
+                <img
+                  src={`data:image/png;base64,${outfitResult.outfitImage}`}
+                  alt="Generated Outfit"
+                  style={{ width: "100%", borderRadius: "10px" }}
+                />
+              </div>
+
+              {/* OUTFIT DETAILS */}
+              <div>
+                <h2>Recommended Outfit</h2>
+                <ul>
+                  {outfitResult.outfit.items.map((item, i) => (
+                    <li key={i} style={{ marginBottom: "12px" }}>
+                      <strong>{item.name}</strong>
+                      <br />
+                      <span style={{ opacity: 0.8 }}>{item.notes}</span>
+                    </li>
+                  ))}
+                </ul>
+
                 <button
                   style={{
+                    marginTop: "20px",
                     background: "#B0674B",
                     border: "none",
-                    padding: "8px 18px",
+                    padding: "10px 20px",
                     borderRadius: "8px",
                     color: "white",
                     cursor: "pointer",
                   }}
                 >
-                  Save
+                  Save Outfit
                 </button>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* BOTTOM NAVIGATION */}
       <footer
         style={{
           display: "flex",
@@ -218,50 +220,17 @@ export default function OutfitInspiration() {
           borderTop: "1px solid #ccc",
         }}
       >
-        <div>
-          <button
-            style={{
-              background: "#333",
-              color: "white",
-              width: "55px",
-              height: "55px",
-              borderRadius: "50%",
-              border: "none",
-            }}
-          >
-            🏷️
-          </button>
-        </div>
+        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
+          🏷️
+        </button>
 
-        <div>
-          <button
-            style={{
-              background: "#333",
-              color: "white",
-              width: "55px",
-              height: "55px",
-              borderRadius: "50%",
-              border: "none",
-            }}
-          >
-            👜
-          </button>
-        </div>
+        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
+          👜
+        </button>
 
-        <div>
-          <button
-            style={{
-              background: "#333",
-              color: "white",
-              width: "55px",
-              height: "55px",
-              borderRadius: "50%",
-              border: "none",
-            }}
-          >
-            🏠
-          </button>
-        </div>
+        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
+          🏠
+        </button>
       </footer>
     </div>
   );
