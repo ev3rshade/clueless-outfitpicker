@@ -1,8 +1,10 @@
 /src/backend/.env
 /src/frontend/.env
 /src/.env
+/backend/.env
 
 # ===============================================
 # NODE.JS
 # ===============================================
 /node_modules/
+/backend/node_modules/

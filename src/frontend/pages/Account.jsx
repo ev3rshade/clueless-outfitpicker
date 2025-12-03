@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 
 export default function Account() {
   const [user, setUser] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     async function loadUser() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:3000/account", {
+      const res = await fetch("http://localhost:5000/account", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -25,6 +26,54 @@ export default function Account() {
 
     loadUser();
   }, []);
+
+  async function handleProfilePicUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload an image file");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size must be less than 5MB");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("profilePic", file);
+
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:5000/upload-profile-pic", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setUser({ ...user, profilePic: data.profilePic });
+        alert("Profile picture updated successfully!");
+      } else {
+        alert(data.error || "Failed to upload profile picture");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Failed to upload profile picture");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   if (!user) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
@@ -65,17 +114,52 @@ export default function Account() {
 
       {/* Profile Section */}
       <div style={{ textAlign: "center", marginTop: "40px" }}>
-        <img
-          src={user.profilePic || "/default-avatar.png"}
-          alt="Profile"
-          style={{
-            width: "140px",
-            height: "140px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-          }}
-        />
+        {/* Profile Picture with Upload */}
+        <div style={{ position: "relative", display: "inline-block" }}>
+          <img
+            src={user.profilePic || "/default-avatar.png"}
+            alt="Profile"
+            style={{
+              width: "140px",
+              height: "140px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+            }}
+          />
+          
+          {/* Upload Button Overlay */}
+          <label
+            htmlFor="profile-pic-upload"
+            style={{
+              position: "absolute",
+              bottom: "5px",
+              right: "5px",
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              background: "#000",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: uploading ? "not-allowed" : "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              fontSize: "20px",
+            }}
+          >
+            {uploading ? "..." : "📷"}
+          </label>
+          
+          <input
+            id="profile-pic-upload"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleProfilePicUpload}
+            disabled={uploading}
+          />
+        </div>
 
         <h1 style={{ marginTop: "20px", fontSize: "32px" }}>
           {user.name?.toUpperCase()}
@@ -94,9 +178,12 @@ export default function Account() {
             background: "#fafafa",
           }}
         >
+          <h3 style={{ marginTop: "0", marginBottom: "15px", fontSize: "20px" }}>
+            Account Details
+          </h3>
+          
           <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Age:</strong> {user.age}</p>
+          <p style={{ marginBottom: "0" }}><strong>Age:</strong> {user.age}</p>
         </div>
 
         {/* Recent Searches */}

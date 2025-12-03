@@ -6,19 +6,24 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   async function handleLogin() {
-    const res = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      window.location.href = "/account";
-    } else {
-      alert(data.error);
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/account";
+      } else {
+        alert(data.error || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Failed to connect to server. Please make sure the backend is running on port 5000.");
     }
   }
 
@@ -48,6 +53,7 @@ export default function Login() {
         <input
           type="email"
           placeholder="Email"
+          value={email}
           style={{
             padding: "12px",
             borderRadius: "8px",
@@ -60,6 +66,7 @@ export default function Login() {
         <input
           type="password"
           placeholder="Password"
+          value={password}
           style={{
             padding: "12px",
             borderRadius: "8px",
@@ -85,8 +92,7 @@ export default function Login() {
         </button>
 
         <p style={{ marginTop: "10px", fontSize: "14px", textAlign: "center" }}>
-          No account? <Link to="/signup" style={{Color: "Blue" }}>Sign up</Link>
-
+          No account? <Link to="/signup" style={{ color: "blue" }}>Sign up</Link>
         </p>
       </div>
     </div>
