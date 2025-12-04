@@ -7,7 +7,7 @@ export default function Login() {
 
   async function handleLogin() {
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch("http://localhost:8000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -23,7 +23,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Failed to connect to server. Please make sure the backend is running on port 5000.");
+      alert("Failed to connect to server. Please make sure the backend is running on port 8000.");
     }
   }
 

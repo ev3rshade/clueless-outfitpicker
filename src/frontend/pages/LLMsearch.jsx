@@ -13,7 +13,7 @@ export default function OutfitInspiration() {
     setOutfitResult(null);
 
     try {
-      const PORT = 5000 || 3000;
+      const PORT = 8000 || 3000;
       const response = await fetch(`http://localhost:${PORT}/outfit`, {
         method: "POST",
         headers: {
