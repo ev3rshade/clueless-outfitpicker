@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'); 
+import mongoose from "mongoose";
 
 const clothSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -10,4 +10,4 @@ const clothSchema = new mongoose.Schema({
 
 const Cloth = mongoose.model('Cloth', clothSchema);
 
-module.exports = Cloth;
+export default Cloth;

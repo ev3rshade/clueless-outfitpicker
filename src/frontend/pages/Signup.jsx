@@ -141,16 +141,6 @@ export default function Signup() {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
-        <label style={{ marginTop: "5px", fontWeight: "bold" }}>
-          Profile Picture
-        </label>
-
-        <input
-          type="file"
-          style={{ marginBottom: "10px" }}
-          onChange={(e) => setProfilePic(e.target.files[0])}
-        />
-
         <button
           style={{
             width: "100%",

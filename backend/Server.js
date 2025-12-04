@@ -9,7 +9,6 @@ import axios from "axios";
 import User from "./models/User.js";
 import Outfit from "./models/Outfit.js";
 import Cloth from "./models/Cloth.js";
-
 import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
@@ -96,14 +95,14 @@ app.post("/signup", async (req, res) => {
   try {
     const { email, name, age, password } = req.body;
 
-    if (!email || !username || !name || !age || !password)
+    if (!email || !name || !age || !password)
       return res.status(400).json({ error: "All fields required" });
 
     const existingEmail = await User.findOne({ email });
-    const existingUsername = await User.findOne({ username });
+    //const existingUsername = await User.findOne({ username });
 
     if (existingEmail) return res.status(400).json({ error: "Email already in use" });
-    if (existingUsername) return res.status(400).json({ error: "Username already in use" });
+    //if (existingUsername) return res.status(400).json({ error: "Username already in use" });
 
     const user = new User({
       email,
