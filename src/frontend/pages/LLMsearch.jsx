@@ -45,12 +45,7 @@ export default function OutfitInspiration() {
     <div style={{ fontFamily: "sans-serif", padding: "20px 40px" }}>
       
       {/* HEADER */}
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
-        <img src="/logo-black.png" alt="Logo" style={{ height: "40px" }} />
-        <button style={{ padding: "10px 25px", borderRadius: "25px", border: "1px solid #000", background: "#fff" }}>
-          My Account
-        </button>
-      </header>
+
 
       <h1 style={{ textAlign: "center", fontSize: "38px", fontWeight: "300", letterSpacing: "2px" }}>
         OUTFIT INSPIRATION

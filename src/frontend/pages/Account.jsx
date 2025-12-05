@@ -96,7 +96,6 @@ export default function Account() {
           alignItems: "center",
         }}
       >
-        <img src="/logo.png" height="40" alt="Logo" />
 
         <button
           className="button-primary"
