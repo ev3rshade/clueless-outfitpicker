@@ -1,4 +1,3 @@
-// TODO 404 not found
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./frontend/components/Navbar.jsx";
@@ -11,9 +10,7 @@ import Outfits from "./frontend/pages/SavedOutfits.jsx"
 import Login from "./frontend/pages/Login.jsx";
 import Signup from "./frontend/pages/Signup.jsx";
 import Account from "./frontend/pages/Account.jsx";
-
-
-// import NotFound from "./pages/NotFound";
+import NotFound from "./frontend/pages/NotFound.jsx";
 
 export default function App() {
   return (
@@ -29,6 +26,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<Account/>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

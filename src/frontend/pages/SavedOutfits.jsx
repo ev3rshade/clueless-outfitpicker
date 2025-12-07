@@ -7,7 +7,7 @@ export default function SavedOutfits() {
     async function loadUser() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:3000/account", {
+      const res = await fetch("http://localhost:5000/account", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });

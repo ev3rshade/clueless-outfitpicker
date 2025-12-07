@@ -29,11 +29,11 @@ export default function Navbar() {
         </Link>
 
         <Link to="/outfits" style={{ textDecoration: "none", color: "black" }}>
-          My Oufits
+          My Outfits
         </Link>
 
         <Link to="/llmsearch" style={{ textDecoration: "none", color: "black" }}>
-          Generate Oufit
+          Generate Outfit
         </Link>
 
         <Link to="/login" style={{ textDecoration: "none", color: "black" }}>

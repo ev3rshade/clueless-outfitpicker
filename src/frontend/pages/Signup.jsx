@@ -7,6 +7,7 @@ export default function Signup() {
   const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
 
   async function handleSignup() {
     // Validation

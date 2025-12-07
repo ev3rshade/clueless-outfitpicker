@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function OutfitInspiration() {
+export default function LLMSearch() {
   const [userPrompt, setUserPrompt] = useState("");
   const [activeFilters, setActiveFilters] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,11 +13,12 @@ export default function OutfitInspiration() {
     setOutfitResult(null);
 
     try {
-      const PORT = 5000 || 3000;
-      const response = await fetch(`http://localhost:${PORT}/outfit`, {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/outfit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({
           prompt: userPrompt,

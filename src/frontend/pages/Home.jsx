@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -24,6 +27,7 @@ export default function Home() {
         }}
       >
         <button
+          onClick={() => navigate("/signup")}
           style={{
             padding: "0.75rem 1.5rem",
             fontSize: "1rem",
@@ -38,6 +42,7 @@ export default function Home() {
         </button>
 
         <button
+          onClick={() => navigate("/login")}
           style={{
             padding: "0.75rem 1.5rem",
             fontSize: "1rem",
