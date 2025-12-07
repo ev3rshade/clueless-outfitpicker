@@ -7,7 +7,7 @@ export default function SavedOutfits() {
     async function loadUser() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/account", {
+      const res = await fetch("http://localhost:8000/account", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -43,7 +43,6 @@ export default function SavedOutfits() {
           padding: "20px",
         }}
       >
-        <img src="/logo.png" alt="Clueless Logo" height="50" />
 
         <a
           href="/account"
@@ -234,7 +233,11 @@ export default function SavedOutfits() {
         </div>
 
         {/* Upload */}
-        <div className="nav-circle-btn">
+        <div 
+          className="nav-circle-btn"
+          onClick={() => window.location.href = "/wardrobe"}
+          style={{ cursor: "pointer" }}
+        >
           <svg
             width="28"
             height="28"

@@ -1,4 +1,6 @@
 import React from "react";
+import logo from "../assets/logo.png";
+
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -17,7 +19,9 @@ export default function Home() {
       }}
     >
       {/* Big Logo */}
-      <h1 style={{ fontSize: "4rem", fontWeight: "bold" }}>CLUELESS</h1>
+      <div className="wardrobe-top-row">
+        <img src={logo} alt="Clueless Logo" height="120" />
+      </div>
 
       {/* Horizontal Buttons */}
       <div

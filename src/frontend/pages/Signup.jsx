@@ -27,7 +27,7 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      const res = await fetch("http://localhost:8000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -50,7 +50,7 @@ export default function Signup() {
       }
     } catch (error) {
       console.error("Signup error:", error);
-      alert("Failed to connect to server. Please make sure the backend is running on port 5000.");
+      alert("Failed to connect to server. Please make sure the backend is running on port 8000.");
     }
   }
 
@@ -140,16 +140,6 @@ export default function Signup() {
             fontSize: "16px",
           }}
           onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-
-        <label style={{ marginTop: "5px", fontWeight: "bold" }}>
-          Profile Picture
-        </label>
-
-        <input
-          type="file"
-          style={{ marginBottom: "10px" }}
-          onChange={(e) => setProfilePic(e.target.files[0])}
         />
 
         <button

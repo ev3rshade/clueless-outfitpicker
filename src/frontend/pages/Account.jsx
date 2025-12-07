@@ -8,7 +8,7 @@ export default function Account() {
     async function loadUser() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/account", {
+      const res = await fetch("http://localhost:8000/account", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -51,7 +51,7 @@ export default function Account() {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/upload-profile-pic", {
+      const res = await fetch("http://localhost:8000/upload-profile-pic", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -96,7 +96,6 @@ export default function Account() {
           alignItems: "center",
         }}
       >
-        <img src="/logo.png" height="40" alt="Logo" />
 
         <button
           className="button-primary"
