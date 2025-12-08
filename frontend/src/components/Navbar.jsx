@@ -17,9 +17,9 @@ export default function Navbar() {
       }}
     >
       { /* <Link to="/" style={{ textDecoration: "none", color: "black", fontSize: "24px", fontWeight: "bold" }}>Clueless</Link> */}
-      <div className="wardrobe-top-row">
+      <Link to="/wardrobe" className="wardrobe-top-row">
         <img src={logo} alt="Clueless Logo" height="80" />
-      </div>
+      </Link>
 
       <div style={{ display: "flex", gap: "20px" }}>
         {(token) ? (<Link to="/account" style={{ textDecoration: "none", color: "black" }}> Account </Link>) : (<></>)}
