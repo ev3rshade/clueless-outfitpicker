@@ -1,9 +1,17 @@
 import express from "express";
-import { generateOutfit } from "../controllers/outfit.controller.js";
+import {
+  generateOutfit,
+  saveOutfit,
+  deleteOutfit,
+  getOutfit,
+} from "../controllers/outfit.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/outfit", generateOutfit);
+router.post("/outfits/generate", authMiddleware, generateOutfit);
+router.post("/outfits", authMiddleware, saveOutfit);
+router.delete("/outfits/:id", authMiddleware, deleteOutfit);
+router.get("/outfits/:id", authMiddleware, getOutfit); // new
 
 export default router;
-

@@ -8,12 +8,7 @@ const UserSchema = new mongoose.Schema({
   profilePic: String,
   recentSearches: { type: [String], default: [] },
   savedOutfits: {
-    type: [
-      {
-        name: String,
-        image: String,
-      },
-    ],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Outfit" }],
     default: [],
   },
 });

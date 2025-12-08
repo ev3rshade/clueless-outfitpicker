@@ -25,6 +25,7 @@ export const callOpenAIImage = async (prompt) => {
     const response = await openai.responses.create({
       model: "gpt-4o-mini",
       input: prompt,
+      size: "1024x1024",
       tools: [{type: "image_generation"}],
     });
 
