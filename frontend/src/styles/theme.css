@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+@font-face {
+  font-family: 'Aboreto';
+  src: url('assets/fonts/Aboreto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
   /* === Color Palette === */

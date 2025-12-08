@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 
 import Home from "./pages/Home.jsx";
-import LLMSearch from "./pages/LLMsearch.jsx";
+import OutfitGeneration from "./pages/OutfitGeneration.jsx";
 import Wardrobe from "./pages/Wardrobe.jsx";
 import Outfits from "./pages/SavedOutfits.jsx"
 
@@ -19,7 +19,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/llmsearch" element={<LLMSearch />} />
+        <Route path="/llmsearch" element={<OutfitGeneration />} />
         <Route path="/wardrobe" element={<Wardrobe/>} />
         <Route path="/outfits" element={<Outfits/>} />
 

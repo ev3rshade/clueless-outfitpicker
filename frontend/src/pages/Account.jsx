@@ -81,112 +81,100 @@ export default function Account() {
     <div
       className="page-container"
       style={{
-        padding: "30px",
-        fontFamily: "sans-serif",
-        maxWidth: "900px",
-        margin: "0 auto",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",   // PERFECT VERTICAL CENTER
+        alignItems: "center",       // PERFECT HORIZONTAL CENTER
+        backgroundColor: "var(--color-background)",
+        padding: "20px",
+        textAlign: "center",
       }}
     >
-      {/* Top Row */}
-      <div
-        className="top-row"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-
-        <button
-          className="button-primary"
-          style={{
-            padding: "10px 20px",
-            borderRadius: "20px",
-            border: "1px solid #000",
-            background: "#fff",
-            cursor: "pointer",
-          }}
-        >
-          Settings
-        </button>
-      </div>
 
       {/* Profile Section */}
       <div style={{ textAlign: "center", marginTop: "40px" }}>
-        {/* Profile Picture with Upload */}
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <img
-            src={user.profilePic || "/default-avatar.png"}
-            alt="Profile"
-            style={{
-              width: "140px",
-              height: "140px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-            }}
-          />
-          
-          {/* Upload Button Overlay */}
-          <label
-            htmlFor="profile-pic-upload"
-            style={{
-              position: "absolute",
-              bottom: "5px",
-              right: "5px",
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              background: "#000",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: uploading ? "not-allowed" : "pointer",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-              fontSize: "20px",
-            }}
-          >
-            {uploading ? "..." : "📷"}
-          </label>
-          
-          <input
-            id="profile-pic-upload"
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={handleProfilePicUpload}
-            disabled={uploading}
-          />
-        </div>
+        {/* GENERIC THEME COLORED PROFILE AVATAR */}
+<div
+  style={{
+    width: "140px",
+    height: "140px",
+    borderRadius: "50%",
+    background: "var(--terra-cotta)",
+    color: "var(--latte)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "var(--font-primary)",
+    fontSize: "60px",
+    fontWeight: "bold",
+    margin: "0 auto",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+    userSelect: "none",
+  }}
+>
+  {user.name?.charAt(0).toUpperCase() || "?"}
+</div>
 
-        <h1 style={{ marginTop: "20px", fontSize: "32px" }}>
-          {user.name?.toUpperCase()}
-        </h1>
 
-        {/* Profile Details Card */}
+        {/* Name */}
+      <h1
+        style={{
+          fontFamily: "var(--font-primary)",
+          fontSize: "48px",
+          letterSpacing: "2px",
+          marginBottom: "40px",
+          color: "var(--terra-cotta)",
+        }}
+      >
+        {user.name?.toUpperCase()}
+      </h1>
+
+        {/* SPLIT BELOW INTO LEFT & RIGHT */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "40px",
+        width: "85%",
+        margin: "0 auto",
+        alignItems: "flex-start",
+      }}
+    >
+      {/* LEFT SIDE — ACCOUNT DETAILS */}
+      <div>
         <div
           className="section-card"
           style={{
             width: "400px",
-            margin: "30px auto",
             padding: "20px",
-            borderRadius: "12px",
-            border: "1px solid #ddd",
-            textAlign: "left",
-            background: "#fafafa",
+            borderRadius: "25px",
+            border: "1px solid var(--terra-cotta)",
+            background: "var(--latte)",
+            boxShadow: "0px 4px 16px rgba(0,0,0,0.1)",
           }}
         >
-          <h3 style={{ marginTop: "0", marginBottom: "15px", fontSize: "20px" }}>
+          <h3
+            style={{
+              fontFamily: "var(--font-primary)",
+              fontSize: "22px",
+              letterSpacing: "2px",
+              color: "var(--terra-cotta)",
+              marginBottom: "15px",
+            }}
+          >
             Account Details
           </h3>
-          
-          <p><strong>Email:</strong> {user.email}</p>
-          <p style={{ marginBottom: "0" }}><strong>Age:</strong> {user.age}</p>
-        </div>
 
+          <p style={{ fontFamily: "var(--font-primary)" }}><strong>Email:</strong> {user.email}</p>
+          <p style={{ fontFamily: "var(--font-primary)" }}><strong>Age:</strong> {user.age}</p>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE — RECENT SEARCHES + SAVED OUTFITS */}
+      <div>
         {/* Recent Searches */}
-        <h2 style={{ marginTop: "40px" }}>Recent Searches</h2>
+        <h2 style={{ fontFamily: "var(--font-primary)" }}>Recent Searches</h2>
         <ul style={{ listStyle: "none", padding: 0 }}>
           {(user.recentSearches || []).map((s, i) => (
             <li
@@ -203,20 +191,18 @@ export default function Account() {
         </ul>
 
         {/* Saved Outfits */}
-        <h2 style={{ marginTop: "40px" }}>Saved Outfits</h2>
+        <h2 style={{ fontFamily: "var(--font-primary)" }}>Saved Outfits</h2>
 
         <div
-          className="outfit-grid"
           style={{
             marginTop: "20px",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-            gap: "20px",
+            gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+            gap: "15px",
           }}
         >
           {(user.savedOutfits || []).map((o, i) => (
             <div
-              className="outfit-card"
               key={i}
               style={{
                 border: "1px solid #ddd",
@@ -230,7 +216,7 @@ export default function Account() {
                 alt="Outfit"
                 style={{
                   width: "100%",
-                  height: "180px",
+                  height: "150px",
                   objectFit: "cover",
                   borderRadius: "8px",
                 }}
@@ -239,27 +225,29 @@ export default function Account() {
             </div>
           ))}
         </div>
-
-        {/* Logout */}
-        <button
-          className="button-primary"
-          style={{
-            marginTop: "40px",
-            background: "red",
-            color: "white",
-            padding: "12px 25px",
-            border: "none",
-            borderRadius: "20px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            localStorage.removeItem("token");
-            window.location.href = "/login";
-          }}
-        >
-          Log Out
-        </button>
       </div>
     </div>
-  );
+
+    {/* LOGOUT BUTTON */}
+    <button
+      style={{
+        marginTop: "40px",
+        borderRadius: "12px",
+        background: "red",
+        color: "white",
+        padding: "12px 25px",
+        border: "none",
+        borderRadius: "20px",
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }}
+    >
+      Log Out
+    </button>
+  </div>
+  </div>
+);
 }

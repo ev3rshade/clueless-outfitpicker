@@ -26,7 +26,7 @@ export default function SavedOutfits() {
 
   if (!user)
     return (
-      <h2 style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2 style={{ fontFamily: "var(--font-primary)", textAlign: "center", marginTop: "50px" }}>
         Loading Saved Outfits...
       </h2>
     );
@@ -43,29 +43,13 @@ export default function SavedOutfits() {
           padding: "20px",
         }}
       >
-
-        <a
-          href="/account"
-          className="account-btn"
-          style={{
-            padding: "10px 20px",
-            borderRadius: "20px",
-            background: "#fff",
-            border: "1px solid #000",
-            textDecoration: "none",
-            color: "black",
-            fontWeight: "bold",
-          }}
-        >
-          My Account
-        </a>
       </div>
 
       {/* Main Container */}
       <div className="outfits-container" style={{ padding: "20px" }}>
         <h1
           className="outfits-header"
-          style={{ textAlign: "center", fontSize: "32px", marginBottom: "20px" }}
+          style={{ fontFamily: "var(--font-primary)", textAlign: "center", fontSize: "32px", marginBottom: "20px" }}
         >
           MY OUTFITS
         </h1>
@@ -138,7 +122,7 @@ export default function SavedOutfits() {
 
                 <p
                   className="saved-outfit-name"
-                  style={{ textAlign: "center", marginTop: "10px" }}
+                  style={{ fontFamily: "var(--font-primary)", textAlign: "center", marginTop: "10px" }}
                 >
                   {outfit.name || `OUTFIT ${index + 1}`}
                 </p>
@@ -148,7 +132,7 @@ export default function SavedOutfits() {
             // Placeholder empty state
             Array.from({ length: 8 }).map((_, i) => (
               <div
-                className="saved-outfit-card"
+                className="outfit-card"
                 key={i}
                 style={{
                   border: "1px solid #ddd",
@@ -218,7 +202,7 @@ export default function SavedOutfits() {
         }}
       >
         {/* Tag */}
-        <div className="nav-circle-btn">
+        {/* <div className="nav-circle-btn">
           <svg
             width="28"
             height="28"
@@ -230,7 +214,7 @@ export default function SavedOutfits() {
             <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
             <line x1="7" y1="7" x2="7.01" y2="7"></line>
           </svg>
-        </div>
+        </div> */}
 
         {/* Upload */}
         <div 
@@ -253,7 +237,7 @@ export default function SavedOutfits() {
         </div>
 
         {/* Search */}
-        <div className="nav-circle-btn">
+        {/* <div className="nav-circle-btn">
           <svg
             width="28"
             height="28"
@@ -265,7 +249,7 @@ export default function SavedOutfits() {
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-        </div>
+        </div> */}
       </div>
     </div>
   );

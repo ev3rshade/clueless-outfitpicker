@@ -28,73 +28,97 @@ export default function Login() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "40px",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1 style={{ fontSize: "36px", marginBottom: "30px" }}>Clueless</h1>
-
       <div
+        className="page-container"
         style={{
-          width: "320px",
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
-          gap: "15px",
-          padding: "25px",
-          borderRadius: "10px",
-          border: "1px solid #ccc",
+          justifyContent: "center",   // PERFECT VERTICAL CENTER
+          alignItems: "center",       // PERFECT HORIZONTAL CENTER
+          backgroundColor: "var(--color-background)",
+          padding: "20px",
+          textAlign: "center",
         }}
       >
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
+  
+        {/* Logo Title */}
+        <h1
           style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
+            fontFamily: "var(--font-primary)",
+            fontSize: "48px",
+            letterSpacing: "2px",
+            marginBottom: "40px",
+            color: "var(--terra-cotta)",
           }}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            background: "black",
-            color: "white",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-          onClick={handleLogin}
         >
-          Login
-        </button>
-
-        <p style={{ marginTop: "10px", fontSize: "14px", textAlign: "center" }}>
-          No account? <Link to="/signup" style={{ color: "blue" }}>Sign up</Link>
-        </p>
+          CLUELESS
+        </h1>
+  
+        {/* Login Card */}
+        <div
+          className="section-card"
+          style={{
+            width: "380px",
+            padding: "50px",
+            background: "var(--latte)",
+            borderRadius: "25px",
+            boxShadow: "0px 4px 16px rgba(0,0,0,0.1)",
+          }}
+        >
+          {/* Inputs */}  
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={inputStyle}
+          />
+  
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={inputStyle}
+          />
+  
+          {/* Button */}
+          <button
+            style={{
+              width: "100%",
+              padding: "14px",
+              borderRadius: "12px",
+              background: "var(--terra-cotta)",
+              color: "white",
+              fontSize: "17px",
+              border: "2px solid var(--warm-clay)",
+              cursor: "pointer",
+              marginTop: "5px",
+            }}
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+  
+          {/* Signup Redirect */}
+          <p style={{ marginTop: "10px", fontFamily: "var(--font-primary)" }}>
+            No account? <Link to="/signup" style={{ color: "var(--warm-clay)", textDecoration: "underline" }}
+            >Sign up</Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+  
+  const inputStyle = {
+    width: "90%",
+    padding: "13px",
+    borderRadius: "12px",
+    justifyContent: "center",   // PERFECT VERTICAL CENTER
+    alignItems: "center",       // PERFECT HORIZONTAL CENTER
+    border: "1px solid var(--dusty-orange)",
+    fontFamily: "var(--font-primary)",
+    fontSize: "15px",
+    marginBottom: "16px",
+  };

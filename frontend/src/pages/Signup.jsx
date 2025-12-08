@@ -56,112 +56,125 @@ export default function Signup() {
 
   return (
     <div
+      className="page-container"
       style={{
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        padding: "40px",
-        fontFamily: "sans-serif",
+        justifyContent: "center",   // PERFECT VERTICAL CENTER
+        alignItems: "center",       // PERFECT HORIZONTAL CENTER
+        backgroundColor: "var(--color-background)",
+        padding: "20px",
+        textAlign: "center",
       }}
     >
-      <h1 style={{ fontSize: "36px", marginBottom: "30px" }}>Clueless</h1>
 
-      <div
+      {/* Logo Title */}
+      <h1
         style={{
-          width: "320px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          padding: "25px",
-          borderRadius: "10px",
-          border: "1px solid #ccc",
+          fontFamily: "var(--font-primary)",
+          fontSize: "48px",
+          letterSpacing: "2px",
+          marginBottom: "40px",
+          color: "var(--terra-cotta)",
         }}
       >
+        CLUELESS
+      </h1>
+
+      {/* Signup Card */}
+      <div
+        className="section-card"
+        style={{
+          width: "380px",
+          padding: "50px",
+          background: "var(--latte)",
+          borderRadius: "25px",
+          boxShadow: "0px 4px 16px rgba(0,0,0,0.1)",
+        }}
+      >
+        {/* Inputs */}
         <input
           type="text"
           placeholder="Full Name"
           value={name}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
           onChange={(e) => setName(e.target.value)}
+          style={inputStyle}
         />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
           onChange={(e) => setEmail(e.target.value)}
+          style={inputStyle}
         />
 
         <input
           type="number"
           placeholder="Age"
           value={age}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
           onChange={(e) => setAge(e.target.value)}
+          style={inputStyle}
         />
 
         <input
           type="password"
           placeholder="Password"
           value={password}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
           onChange={(e) => setPassword(e.target.value)}
+          style={inputStyle}
         />
 
         <input
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
-          style={{
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-          }}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          style={inputStyle}
         />
 
+        {/* Button */}
         <button
           style={{
             width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            background: "black",
+            padding: "14px",
+            borderRadius: "12px",
+            background: "var(--terra-cotta)",
             color: "white",
-            fontSize: "16px",
+            fontSize: "17px",
+            border: "2px solid var(--warm-clay)",
             cursor: "pointer",
-            marginTop: "10px",
+            marginTop: "5px",
           }}
           onClick={handleSignup}
         >
           Sign Up
         </button>
 
-        <p style={{ textAlign: "center", marginTop: "10px" }}>
-          Already have an account? <Link to="/login" style={{ color: "blue" }}>Login</Link>
+        {/* Login Redirect */}
+        <p style={{ marginTop: "20px", fontFamily: "var(--font-primary)" }}>
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            style={{ color: "var(--warm-clay)", textDecoration: "underline" }}
+          >
+            Login
+          </Link>
         </p>
       </div>
     </div>
   );
 }
+
+const inputStyle = {
+  width: "90%",
+  padding: "13px",
+  borderRadius: "12px",
+  justifyContent: "center",   // PERFECT VERTICAL CENTER
+  alignItems: "center",       // PERFECT HORIZONTAL CENTER
+  border: "1px solid var(--dusty-orange)",
+  fontFamily: "var(--font-primary)",
+  fontSize: "15px",
+  marginBottom: "16px",
+};
