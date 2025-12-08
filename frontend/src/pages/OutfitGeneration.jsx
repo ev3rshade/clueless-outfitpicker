@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Outfit from "../models/Outfit.js";
+import Outfit from "../../../backend/models/Outfit.js";
+
 
 async function saveOutfit({ userId, description, base64Image }) {
   try {

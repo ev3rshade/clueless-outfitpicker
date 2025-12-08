@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const outfitSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  items: { type: String[], required: true },
+  items: { type: [String], required: true },
   image: { type: String, required: true },
   // Add other fields as needed
 });
