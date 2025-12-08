@@ -4,6 +4,7 @@ import logo from "../assets/logo.png";
 
 
 export default function Navbar() {
+  const token = localStorage.getItem("token");
   return (
     <nav
       style={{
@@ -26,24 +27,16 @@ export default function Navbar() {
         </Link>
 
         {/* ROUTED TO /llmsearch AS REQUESTED */}
-        <Link
-          to="/wardrobe"
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          Wardrobe
-        </Link>
+        {(token) ? (<Link to="/wardrobe" style={{ textDecoration: "none", color: "black" }}> Wardrobe </Link>) : (<></>)}
 
-        <Link to="/outfits" style={{ textDecoration: "none", color: "black" }}>
-          My Outfits
-        </Link>
+        {(token) ? (<Link to="/outfits" style={{ textDecoration: "none", color: "black" }}> My Outfits </Link>) : (<></>)}
 
         <Link to="/llmsearch" style={{ textDecoration: "none", color: "black" }}>
           Generate Outfit
         </Link>
 
-        <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-          Login
-        </Link>
+        {(token) ? (<Link to="/login" onClick={() => {localStorage.removeItem("token"); }}style={{ textDecoration: "none", color: "black" }}> Logout </Link>) :
+                   (<Link to="/login" style={{ textDecoration: "none", color: "black" }}> Login </Link>)}
       </div>
     </nav>
   );

@@ -205,29 +205,6 @@ export default function LLMSearch() {
           )}
         </div>
       </div>
-
-      {/* BOTTOM NAVIGATION */}
-      <footer
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          marginTop: "60px",
-          paddingTop: "25px",
-          borderTop: "1px solid #ccc",
-        }}
-      >
-        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
-          🏷️
-        </button>
-
-        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
-          👜
-        </button>
-
-        <button style={{ background: "#333", color: "white", width: "55px", height: "55px", borderRadius: "50%", border: "none" }}>
-          🏠
-        </button>
-      </footer>
     </div>
   );
 }
