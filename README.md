@@ -1,3 +1,8 @@
+# Clueless Outfit Picker
+Welcome to our CAPSTONE PROJECT for CS390 WEB APPLICATION PROGRAMMING @ PURDUE UNIVERSITY
+
+# About our project
+
 # Building the Project
 Clone the project
 
