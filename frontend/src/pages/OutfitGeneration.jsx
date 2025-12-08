@@ -1,4 +1,24 @@
 import React, { useState } from "react";
+import Outfit from "../models/Outfit.js";
+
+async function saveOutfit({ userId, description, base64Image }) {
+  try {
+    // remove the base64 prefix
+
+    const outfit = new Outfit({
+      userId,
+      description,
+      image: base64Imagee,
+    });
+
+    await outfit.save();
+
+    return { success: true, outfit };
+  } catch (err) {
+    console.error("Error saving outfit:", err);
+    return { success: false, error: err.message };
+  }
+}
 
 export default function LLMSearch() {
   const [userPrompt, setUserPrompt] = useState("");
@@ -188,6 +208,7 @@ export default function LLMSearch() {
                 </ul>
 
                 <button
+                  onClick={() => {saveOutfit(userId, outfitResult.items.map(), outfitResult.outfitImage)}}
                   style={{
                     marginTop: "20px",
                     background: "#B0674B",

@@ -22,9 +22,7 @@ export default function Navbar() {
       </div>
 
       <div style={{ display: "flex", gap: "20px" }}>
-        <Link to="/account" style={{ textDecoration: "none", color: "black" }}>
-          Account
-        </Link>
+        {(token) ? (<Link to="/account" style={{ textDecoration: "none", color: "black" }}> Account </Link>) : (<></>)}
 
         {/* ROUTED TO /llmsearch AS REQUESTED */}
         {(token) ? (<Link to="/wardrobe" style={{ textDecoration: "none", color: "black" }}> Wardrobe </Link>) : (<></>)}
