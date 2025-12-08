@@ -19,7 +19,7 @@ export default function Login() {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/account";
+        window.location.href = "/outfits";
       } else {
         alert(data.error || "Login failed");
       }
