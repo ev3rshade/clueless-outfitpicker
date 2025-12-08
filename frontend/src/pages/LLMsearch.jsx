@@ -43,7 +43,7 @@ export default function LLMSearch() {
   }
 
   return (
-    <div style={{ fontFamily: "sans-serif", padding: "20px 40px" }}>
+    <div style={{ fontFamily: "var(--font-primary)", padding: "20px 40px" }}>
       
       {/* HEADER */}
 
@@ -55,7 +55,7 @@ export default function LLMSearch() {
       {/* SEARCH BAR */}
       <div
         style={{
-          background: "#FAE9D5",
+          background: "var(--latte)",
           borderRadius: "30px",
           padding: "15px 20px",
           maxWidth: "1100px",
@@ -63,7 +63,7 @@ export default function LLMSearch() {
           display: "flex",
           alignItems: "center",
           gap: "12px",
-          border: "1px solid #f2d8c3",
+          border: "1px solid var(--terra-cotta)",
         }}
       >
         <span style={{ fontSize: "20px" }}>🔍</span>
@@ -74,7 +74,7 @@ export default function LLMSearch() {
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          style={{ flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
+          style={{ fontFamily: "var(--font-primary)",flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
         />
 
         <span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span>
@@ -97,7 +97,7 @@ export default function LLMSearch() {
 
           <details open style={{ marginBottom: "15px" }}>
             <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Category</summary>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "8px" }}>
+            <div style={{ fontFamily: "var(--font-primary)", display: "flex", flexDirection: "column", gap: "10px", marginTop: "8px" }}>
               {["Tops", "Bottoms", "Dresses", "Outerwear"].map((c) => (
                 <button
                   key={c}
