@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Outfit from "../../../backend/models/Outfit.js";
 
+// Filter options (matching your wardrobe categories)
+const CATEGORY_OPTIONS = ["Tops", "Bottoms", "One-piece", "Outerwear", "Accessories", "Shoes"];
+const COLOR_OPTIONS = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Black", "White", "Grey", "Mixed"];
+const OCCASION_OPTIONS = ["Business casual", "Casual", "Formal", "Black tie", "Ethnic", "Leisure"];
+const WEATHER_OPTIONS = ["Spring", "Summer", "Fall", "Winter"];
 
 async function saveOutfit({ userId, description, base64Image }) {
   try {
@@ -27,6 +32,36 @@ export default function LLMSearch() {
   const [loading, setLoading] = useState(false);
   const [outfitResult, setOutfitResult] = useState(null);
   const [error, setError] = useState(null);
+  
+  // Filter states - all optional
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedOccasions, setSelectedOccasions] = useState([]);
+  const [selectedWeather, setSelectedWeather] = useState([]);
+
+  // Dropdown expansion states
+  const [expandedDropdowns, setExpandedDropdowns] = useState({
+    categories: false,
+    colors: false,
+    occasions: false,
+    weather: false,
+  });
+
+  const toggleDropdown = (dropdown) => {
+    setExpandedDropdowns(prev => ({
+      ...prev,
+      [dropdown]: !prev[dropdown]
+    }));
+  };
+
+  // Helper function to toggle filter selection
+  const toggleFilter = (filterArray, setFilterArray, item) => {
+    if (filterArray.includes(item)) {
+      setFilterArray(filterArray.filter(f => f !== item));
+    } else {
+      setFilterArray([...filterArray, item]);
+    }
+  };
 
   async function handleSearch() {
     setLoading(true);
@@ -35,6 +70,15 @@ export default function LLMSearch() {
 
     try {
       const token = localStorage.getItem("token");
+      
+      // Compile filter requirements
+      const requirements = {
+        ...(selectedCategories.length > 0 && { categories: selectedCategories }),
+        ...(selectedColors.length > 0 && { colors: selectedColors }),
+        ...(selectedOccasions.length > 0 && { occasions: selectedOccasions }),
+        ...(selectedWeather.length > 0 && { weather: selectedWeather })
+      };
+
       const response = await fetch("http://localhost:8000/outfit", {
         method: "POST",
         headers: {
@@ -43,7 +87,7 @@ export default function LLMSearch() {
         },
         body: JSON.stringify({
           prompt: userPrompt,
-          requirements: activeFilters, // optional for now
+          requirements: Object.keys(requirements).length > 0 ? requirements : undefined
         }),
       });
 
@@ -68,7 +112,6 @@ export default function LLMSearch() {
       
       {/* HEADER */}
 
-
       <h1 style={{ textAlign: "center", fontSize: "38px", fontWeight: "300", letterSpacing: "2px" }}>
         OUTFIT INSPIRATION
       </h1>
@@ -87,7 +130,20 @@ export default function LLMSearch() {
           border: "1px solid var(--terra-cotta)",
         }}
       >
-        <span style={{ fontSize: "20px" }}>🔍</span>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ color: "#666" }}
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
 
         <input
           type="text"
@@ -98,76 +154,281 @@ export default function LLMSearch() {
           style={{ fontFamily: "var(--font-primary)", flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
         />
 
-        <span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span>
+        {/*<span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span> */}
       </div>
 
-      {/* LAYOUT */}
-      <div style={{ display: "flex", gap: "40px" }}>
-
-        {/* FILTER SIDEBAR */}
-        <div
-          style={{
-            width: "180px",
-            border: "1px solid #ddd",
-            borderRadius: "12px",
-            padding: "15px",
-            height: "fit-content",
-          }}
-        >
-          <div style={{ textAlign: "center", marginBottom: "10px" }}>Filter By</div>
-
-          <details open style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Category</summary>
-            <div style={{ fontFamily: "var(--font-primary)", display: "flex", flexDirection: "column", gap: "10px", marginTop: "8px" }}>
-              {["Tops", "Bottoms", "Dresses", "Outerwear"].map((c) => (
-                <button
-                  key={c}
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #000",
-                    background: "#fff",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  {c} <span>＋</span>
-                </button>
-              ))}
-            </div>
-          </details>
-
-          <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Color</summary>
-          </details>
-
-          <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Occasion</summary>
-          </details>
-
-          <details style={{ marginBottom: "15px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Weather</summary>
-          </details>
+      {/* LAYOUT WITH LEFT SIDEBAR FILTERS */}
+      <div style={{ display: "flex", gap: "30px", maxWidth: "1200px", margin: "0 auto" }}>
+        
+        {/* LEFT SIDEBAR - FILTERS */}
+        <div style={{ width: "280px", flexShrink: 0 }}>
+          <h3 style={{ 
+            fontSize: "16px", 
+            fontWeight: "600",
+            color: "#333",
+            marginBottom: "15px"
+          }}>
+            Filter By (Optional)
+          </h3>
 
           <button
             style={{
               width: "100%",
-              padding: "10px",
-              borderRadius: "20px",
-              border: "1px solid #000",
-              background: "#222",
-              color: "white",
-              marginTop: "10px",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              background: "white",
+              color: "#666",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontFamily: "var(--font-primary)",
+              marginBottom: "15px"
             }}
-            onClick={handleSearch}
+            onClick={() => {
+              setSelectedCategories([]);
+              setSelectedColors([]);
+              setSelectedOccasions([]);
+              setSelectedWeather([]);
+            }}
           >
-            Update Filters
+            Clear All Filters
           </button>
+
+          {/* CATEGORY DROPDOWN */}
+          <div style={{ marginBottom: "15px" }}>
+            <button
+              onClick={() => toggleDropdown("categories")}
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                background: "#f9f9f9",
+                color: "#333",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontFamily: "var(--font-primary)",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "all 0.2s ease"
+              }}
+            >
+              CATEGORY
+              <span style={{ fontSize: "12px", fontWeight: "bold" }}>
+                {expandedDropdowns.categories ? "▼" : "▶"}
+              </span>
+            </button>
+            {expandedDropdowns.categories && (
+              <div style={{ paddingTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                {CATEGORY_OPTIONS.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => toggleFilter(selectedCategories, setSelectedCategories, category.toLowerCase())}
+                    style={{
+                      fontFamily: "var(--font-primary)",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: selectedCategories.includes(category.toLowerCase()) ? "1px solid #B0674B" : "1px solid #ddd",
+                      background: selectedCategories.includes(category.toLowerCase()) ? "#B0674B" : "#fff",
+                      color: selectedCategories.includes(category.toLowerCase()) ? "#fff" : "#333",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {category}
+                    <span style={{ fontWeight: "bold", marginLeft: "8px" }}>
+                      {selectedCategories.includes(category.toLowerCase()) ? "-" : "+"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* COLOR DROPDOWN */}
+          <div style={{ marginBottom: "15px" }}>
+            <button
+              onClick={() => toggleDropdown("colors")}
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                background: "#f9f9f9",
+                color: "#333",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontFamily: "var(--font-primary)",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "all 0.2s ease"
+              }}
+            >
+              COLOR
+              <span style={{ fontSize: "12px", fontWeight: "bold" }}>
+                {expandedDropdowns.colors ? "▼" : "▶"}
+              </span>
+            </button>
+            {expandedDropdowns.colors && (
+              <div style={{ paddingTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                {COLOR_OPTIONS.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => toggleFilter(selectedColors, setSelectedColors, color.toLowerCase())}
+                    style={{
+                      fontFamily: "var(--font-primary)",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: selectedColors.includes(color.toLowerCase()) ? "1px solid #B0674B" : "1px solid #ddd",
+                      background: selectedColors.includes(color.toLowerCase()) ? "#B0674B" : "#fff",
+                      color: selectedColors.includes(color.toLowerCase()) ? "#fff" : "#333",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {color}
+                    <span style={{ fontWeight: "bold", marginLeft: "8px" }}>
+                      {selectedColors.includes(color.toLowerCase()) ? "-" : "+"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* OCCASION DROPDOWN */}
+          <div style={{ marginBottom: "15px" }}>
+            <button
+              onClick={() => toggleDropdown("occasions")}
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                background: "#f9f9f9",
+                color: "#333",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontFamily: "var(--font-primary)",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "all 0.2s ease"
+              }}
+            >
+              OCCASION
+              <span style={{ fontSize: "12px", fontWeight: "bold" }}>
+                {expandedDropdowns.occasions ? "▼" : "▶"}
+              </span>
+            </button>
+            {expandedDropdowns.occasions && (
+              <div style={{ paddingTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                {OCCASION_OPTIONS.map((occasion) => (
+                  <button
+                    key={occasion}
+                    onClick={() => toggleFilter(selectedOccasions, setSelectedOccasions, occasion.toLowerCase())}
+                    style={{
+                      fontFamily: "var(--font-primary)",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: selectedOccasions.includes(occasion.toLowerCase()) ? "1px solid #B0674B" : "1px solid #ddd",
+                      background: selectedOccasions.includes(occasion.toLowerCase()) ? "#B0674B" : "#fff",
+                      color: selectedOccasions.includes(occasion.toLowerCase()) ? "#fff" : "#333",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {occasion}
+                    <span style={{ fontWeight: "bold", marginLeft: "8px" }}>
+                      {selectedOccasions.includes(occasion.toLowerCase()) ? "-" : "+"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* WEATHER DROPDOWN */}
+          <div style={{ marginBottom: "15px" }}>
+            <button
+              onClick={() => toggleDropdown("weather")}
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                background: "#f9f9f9",
+                color: "#333",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontFamily: "var(--font-primary)",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "all 0.2s ease"
+              }}
+            >
+              WEATHER
+              <span style={{ fontSize: "12px", fontWeight: "bold" }}>
+                {expandedDropdowns.weather ? "▼" : "▶"}
+              </span>
+            </button>
+            {expandedDropdowns.weather && (
+              <div style={{ paddingTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                {WEATHER_OPTIONS.map((weather) => (
+                  <button
+                    key={weather}
+                    onClick={() => toggleFilter(selectedWeather, setSelectedWeather, weather.toLowerCase())}
+                    style={{
+                      fontFamily: "var(--font-primary)",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: selectedWeather.includes(weather.toLowerCase()) ? "1px solid #B0674B" : "1px solid #ddd",
+                      background: selectedWeather.includes(weather.toLowerCase()) ? "#B0674B" : "#fff",
+                      color: selectedWeather.includes(weather.toLowerCase()) ? "#fff" : "#333",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {weather}
+                    <span style={{ fontWeight: "bold", marginLeft: "8px" }}>
+                      {selectedWeather.includes(weather.toLowerCase()) ? "-" : "+"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* RESULTS */}
+        {/* RESULTS SECTION */}
         <div style={{ flex: 1 }}>
-
           {loading && <h2>⏳ Generating outfit…</h2>}
           {error && <h2 style={{ color: "red" }}>{error}</h2>}
 
