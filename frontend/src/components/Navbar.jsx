@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 
 export default function Navbar() {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   return (
     <nav
       style={{
@@ -35,7 +35,7 @@ export default function Navbar() {
           Generate Outfit
         </Link>
 
-        {(token) ? (<Link to="/login" onClick={() => {localStorage.removeItem("token"); }}style={{ textDecoration: "none", color: "black" }}> Logout </Link>) :
+        {(token) ? (<Link to="/login" onClick={() => {localStorage.removeItem("token"); setToken(null) }}style={{ textDecoration: "none", color: "black" }}> Logout </Link>) :
                    (<Link to="/login" style={{ textDecoration: "none", color: "black" }}> Login </Link>)}
       </div>
     </nav>

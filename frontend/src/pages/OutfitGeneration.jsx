@@ -14,7 +14,7 @@ export default function LLMSearch() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/outfit", {
+      const response = await fetch("http://localhost:8000/outfit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

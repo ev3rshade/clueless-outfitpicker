@@ -1,15 +1,18 @@
-import { callGeminiJSON, callGeminiImage } from "../services/gemini.service.js";
+import { callOpenAIJSON, callOpenAIImage } from "../services/openAI.service.js";
 
 export const generateOutfit = async (req, res) => {
   try {
     const { prompt, requirements } = req.body;
 
-    const geminiPrompt = `
+    const openAIPrompt = `
+      RESPOND ONLY IN VALID JSON WITH NO OTHER TEXT
       You analyze a text prompt and a list of requirements.
       Recommend a full outfit.
-      Respond ONLY in valid JSON:
+
       Outfit details:
       ${requirements.join("\n")}
+      
+      REQUIRED RESPONSE FORMAT IS BELOW
       {
         "items": [
           { "name": "", "pieces": [], "notes": "" }
@@ -18,7 +21,8 @@ export const generateOutfit = async (req, res) => {
       }
     `;
 
-    const responseText = await callGeminiJSON(geminiPrompt + "\n" + prompt, requirements);
+    const responseText = await callOpenAIJSON(openAIPrompt + "\n" + prompt, requirements);
+    console.log("OPENAI RESPONSE: ", responseText)
     const outfit = JSON.parse(responseText);
 
     const imagePrompt = `
@@ -33,7 +37,7 @@ export const generateOutfit = async (req, res) => {
       - extremely high detail
     `;
 
-    const base64Image = await callGeminiImage(imagePrompt);
+    const base64Image = await callOpenAIImage(imagePrompt);
 
     res.json({
       success: true,
