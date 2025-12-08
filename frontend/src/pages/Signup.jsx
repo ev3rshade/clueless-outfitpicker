@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -69,18 +71,11 @@ export default function Signup() {
       }}
     >
 
-      {/* Logo Title */}
-      <h1
-        style={{
-          fontFamily: "var(--font-primary)",
-          fontSize: "48px",
-          letterSpacing: "2px",
-          marginBottom: "40px",
-          color: "var(--terra-cotta)",
-        }}
-      >
-        CLUELESS
-      </h1>
+      {/* Big Logo */}
+      <div className="wardrobe-top-row">
+        <img src={logo} alt="Clueless Logo" height="120" />
+      </div>
+
 
       {/* Signup Card */}
       <div

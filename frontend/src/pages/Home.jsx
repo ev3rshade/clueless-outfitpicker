@@ -33,13 +33,14 @@ export default function Home() {
         <button
           onClick={() => navigate("/signup")}
           style={{
+            fontFamily: "var(--font-primary)",
             padding: "0.75rem 1.5rem",
             fontSize: "1rem",
             borderRadius: "8px",
-            border: "none",
             cursor: "pointer",
-            background: "#1e90ff",
-            color: "white",
+            background: "var(--latte)",
+            color: "var(--terra-cotta)",
+            border: "2px solid var(--warm-clay)",
           }}
         >
           Sign Up
@@ -48,13 +49,14 @@ export default function Home() {
         <button
           onClick={() => navigate("/login")}
           style={{
+            fontFamily: "var(--font-primary)",
             padding: "0.75rem 1.5rem",
             fontSize: "1rem",
             borderRadius: "8px",
-            border: "1px solid #1e90ff",
             cursor: "pointer",
-            background: "white",
-            color: "#1e90ff",
+            background: "var(--terra-cotta)",
+            color: "var(--latte)",
+            border: "2px solid var(--warm-clay)",
           }}
         >
           Log In
