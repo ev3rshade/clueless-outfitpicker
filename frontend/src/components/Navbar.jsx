@@ -25,16 +25,16 @@ export default function Navbar() {
         {(token) ? (<Link to="/account" style={{ textDecoration: "none", color: "black" }}> Account </Link>) : (<></>)}
 
         {/* ROUTED TO /llmsearch AS REQUESTED */}
-        {(token) ? (<Link to="/wardrobe" style={{ textDecoration: "none", color: "black" }}> Wardrobe </Link>) : (<></>)}
+        {(token) ? (<Link to="/wardrobe" style={{ fontFamily: "var(--font-primary)", textDecoration: "none", color: "black" }}> Wardrobe </Link>) : (<></>)}
 
-        {(token) ? (<Link to="/outfits" style={{ textDecoration: "none", color: "black" }}> My Outfits </Link>) : (<></>)}
+        {(token) ? (<Link to="/outfits" style={{ fontFamily: "var(--font-primary)", textDecoration: "none", color: "black" }}> My Outfits </Link>) : (<></>)}
 
-        <Link to="/llmsearch" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/llmsearch" style={{ fontFamily: "var(--font-primary)", textDecoration: "none", color: "black" }}>
           Generate Outfit
         </Link>
 
-        {(token) ? (<Link to="/login" onClick={() => {localStorage.removeItem("token"); setToken(null) }}style={{ textDecoration: "none", color: "black" }}> Logout </Link>) :
-                   (<Link to="/login" style={{ textDecoration: "none", color: "black" }}> Login </Link>)}
+        {(token) ? (<Link to="/login" onClick={() => {localStorage.removeItem("token"); setToken(null) }}style={{ fontFamily: "var(--font-primary)", textDecoration: "none", color: "black" }}> Logout </Link>) :
+                   (<Link to="/login" style={{ fontFamily: "var(--font-primary)", textDecoration: "none", color: "black" }}> Login </Link>)}
       </div>
     </nav>
   );

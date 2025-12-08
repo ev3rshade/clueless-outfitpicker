@@ -237,7 +237,6 @@ export default function Account() {
         color: "white",
         padding: "12px 25px",
         border: "none",
-        borderRadius: "20px",
         cursor: "pointer",
       }}
       onClick={() => {

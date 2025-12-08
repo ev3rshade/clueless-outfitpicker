@@ -94,7 +94,7 @@ export default function LLMSearch() {
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          style={{ fontFamily: "var(--font-primary)",flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
+          style={{ fontFamily: "var(--font-primary)", flex: 1, border: "none", background: "transparent", outline: "none", fontSize: "16px" }}
         />
 
         <span style={{ fontSize: "18px", cursor: "pointer" }}>🎤</span>
