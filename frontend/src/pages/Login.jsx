@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,7 +19,7 @@ export default function Login() {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/account";
+        window.location.href = "/outfits";
       } else {
         alert(data.error || "Login failed");
       }
@@ -42,19 +44,11 @@ export default function Login() {
         }}
       >
   
-        {/* Logo Title */}
-        <h1
-          style={{
-            fontFamily: "var(--font-primary)",
-            fontSize: "48px",
-            letterSpacing: "2px",
-            marginBottom: "40px",
-            color: "var(--terra-cotta)",
-          }}
-        >
-          CLUELESS
-        </h1>
-  
+        {/* Big Logo */}
+              <div className="wardrobe-top-row">
+                <img src={logo} alt="Clueless Logo" height="120" />
+              </div>
+        
         {/* Login Card */}
         <div
           className="section-card"

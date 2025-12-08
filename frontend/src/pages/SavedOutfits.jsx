@@ -176,6 +176,7 @@ export default function SavedOutfits() {
           )}
         </div>
       </div>
+<<<<<<< HEAD
 
       {/* Bottom Navigation */}
       <div
@@ -211,6 +212,8 @@ export default function SavedOutfits() {
           </svg>
         </div>
       </div>
+=======
+>>>>>>> 812f7ba45134c1e26771cb66f7907516d3bc134d
     </div>
   );
 }
