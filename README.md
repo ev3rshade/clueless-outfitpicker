@@ -65,7 +65,7 @@ GPT-4o-mini was selected for being lightweight, fast, and cost-effective while s
 
 ## What we learned
 ### Hanako Keney (ev3rshade)
-Here are a few key things I learned:
+Here are a few key things I learned from this project:
 
 Working with the OpenAI API:
 I learned how to send requests to the API, interpret its responses, and apply the correct request/response formats in practice.
