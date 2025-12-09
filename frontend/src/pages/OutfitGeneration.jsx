@@ -79,44 +79,44 @@ export default function LLMSearch() {
     setError(null);
     setOutfitResult(null);
 
-    // try {
-    //   const token = localStorage.getItem("token");
-    //   const response = await fetch("http://localhost:8000/outfits/generate", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       ...(token && { Authorization: `Bearer ${token}` }),
-    //     },
-    //     body: JSON.stringify({
-    //       prompt: userPrompt,
-    //       requirements: activeFilters, // optional for now
-    //     }),
-    //   });
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8000/outfits/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({
+          prompt: userPrompt,
+          requirements: activeFilters, // optional for now
+        }),
+      });
 
-    //   const data = await response.json();
+      const data = await response.json();
 
-    //   if (!data.success) {
-    //     setError("Could not generate outfit.");
-    //     return;
-    //   }
+      if (!data.success) {
+        setError("Could not generate outfit.");
+        return;
+      }
 
-    //   setOutfitResult(data);
-    // } catch (err) {
-    //   console.error(err);
-    //   setError("Server error. Try again.");
-    // }
+      setOutfitResult(data);
+    } catch (err) {
+      console.error(err);
+      setError("Server error. Try again.");
+    }
 
     // test case
-    const outfit = {
-          "items": [],
-          "imagePrompt": "describe the outfit visually"
-    };
+    // const outfit = {
+    //       "items": [],
+    //       "imagePrompt": "describe the outfit visually"
+    // };
 
-    setOutfitResult({
-        success: true,
-        outfit,
-        outfitImage: test64Image,
-    });
+    // setOutfitResult({
+    //     success: true,
+    //     outfit,
+    //     outfitImage: test64Image,
+    // });
 
     setLoading(false);
   }

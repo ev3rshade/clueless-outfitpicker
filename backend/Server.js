@@ -12,7 +12,8 @@ const app = express();
 
 // Middleware
 app.use(corsConfig); // corsConfig is already a middleware function
-app.use(express.json());
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ limit: "20mb", extended: true }));
 
 // Database connection
 connectDB();

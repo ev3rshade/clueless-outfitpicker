@@ -21,15 +21,25 @@ export default function SavedOutfits() {
 
         const outfits = await Promise.all(
           outfitIds.map(async (id) => {
-            const outfitRes = await fetch(`http://localhost:8000/outfits/${id}`);
+            const outfitRes = await fetch(`http://localhost:8000/outfits/${id}`, {
+              method: "GET",
+              headers: { 
+                Authorization: `Bearer ${token}` 
+              },
+            });
             const outfitData = await outfitRes.json();
             return outfitData.success ? outfitData.outfit : null;
           })
         );
         
         console.log(outfits);
+        if (outfits) {
+          setSavedOutfits(outfits);
+        }
+        else {
+          setSavedOutfits([])
+        }
 
-        setSavedOutfits(outfits);
       } else {
         window.location.href = "/login";
       }
@@ -133,7 +143,7 @@ export default function SavedOutfits() {
                 >
                   {outfit.outfitImage ? (
                     <img
-                      src={`data:image/png;base64,${outfit.outfitImage}`}
+                      src={`${outfit.outfitImage}`}
                       alt={`Outfit ${index + 1}`}
                       style={{
                         width: "100%",
@@ -176,7 +186,6 @@ export default function SavedOutfits() {
           )}
         </div>
       </div>
-<<<<<<< HEAD
 
       {/* Bottom Navigation */}
       <div
@@ -212,8 +221,6 @@ export default function SavedOutfits() {
           </svg>
         </div>
       </div>
-=======
->>>>>>> 812f7ba45134c1e26771cb66f7907516d3bc134d
     </div>
   );
 }

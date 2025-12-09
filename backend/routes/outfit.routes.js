@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/outfits/generate", authMiddleware, generateOutfit);
 router.post("/outfits", authMiddleware, saveOutfit);
+router.get("/outfits/:id", authMiddleware, getOutfit);
 router.delete("/outfits/:id", authMiddleware, deleteOutfit);
-router.get("/outfits/:id", authMiddleware, getOutfit); // new
 
 export default router;

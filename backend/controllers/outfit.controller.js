@@ -105,6 +105,14 @@ export const deleteOutfit = async (req, res) => {
 
     await Outfit.findByIdAndDelete(id);
 
+    const user = await User.findById(req.user.id);
+    if (user) {
+      user.savedOutfits = user.savedOutfits.filter(
+        outfitId => outfitId.toString() !== id
+      );
+      await user.save();
+    }
+
     res.json({ success: true, message: "Outfit deleted successfully" });
 
   } catch (err) {
@@ -115,14 +123,14 @@ export const deleteOutfit = async (req, res) => {
 
 export async function getOutfit(req, res) {
   try {
-    const { outfitId } = req.params; // Assuming the ID comes from the URL
+    const { id } = req.params; // Assuming the ID comes from the URL
 
-    if (!outfitId) {
+    if (!id) {
       return res.status(400).json({ error: "Missing outfit ID" });
     }
 
     // Find outfit by ID
-    const outfit = await Outfit.findById(outfitId);
+    const outfit = await Outfit.findById(id);
 
     if (!outfit) {
       return res.status(404).json({ error: "Outfit not found" });
