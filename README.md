@@ -20,9 +20,15 @@ cd frontend && npm install
 ```
 
 To build the backend
+(i)
 ```
 cd backend && npm install
 ```
+(ii)
+Create an .env file with:
+1. Your OpenAI API key
+2. Your MongoDB URI (connection)
+3. Port set as 8000 (PORT=8000)
 
 ## Running the Project
 #### Frontend
@@ -30,7 +36,6 @@ run:
 ```
 cd frontend && npm run dev
 ```
-(explain what the frontend is running on and how it runs)
 
 #### Backend
 run:
