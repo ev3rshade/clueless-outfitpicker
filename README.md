@@ -9,6 +9,7 @@ What it includes
 2. Account creation to allow users to:
     a. Save their generated outfits ⬇️
     b. Add items they have in their wardrobe to view to create their own outfits ➕👖
+3. A wardrobe that usese a set of tags to filter through the user's items 🏷️🏷️🏷️
 
 ## Building the Project
 Clone the project
