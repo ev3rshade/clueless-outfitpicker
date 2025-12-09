@@ -74,4 +74,4 @@ Understanding project structure:
 I strengthened my understanding of how to structure a project effectively. I organized both the backend and frontend directories to keep the codebase clean, modular, and easy to navigate.
 
 Mastering Git fundamentals and workflows:
-I deepened my knowledge of Git, including how to use .gitignore, work with branches, and understand the differences between rebasing and merging.
+I deepened my knowledge of Git, including how to use .gitignore, work with branches, and understand the differences between rebasing and merging to work effectively with my teammates.
