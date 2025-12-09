@@ -180,14 +180,19 @@ export default function SavedOutfits() {
               </div>
             ))
           ) : (
-            <p style={{ textAlign: "center", width: "100%" }}>
+            <p style={{ 
+              fontFamily: "var(--font-primary)", 
+              gridColumn: "1 / -1", 
+              textAlign: "center", 
+              padding: "40px" 
+            }}>
               No saved outfits yet.
             </p>
           )}
         </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation 
       <div
         className="bottom-nav-bar"
         style={{
@@ -221,6 +226,7 @@ export default function SavedOutfits() {
           </svg>
         </div>
       </div>
+      */}
     </div>
   );
 }
