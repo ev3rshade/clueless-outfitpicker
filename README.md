@@ -1,7 +1,7 @@
 # Clueless Outfit Picker 🛍️👚👗👔👖
 Welcome to our CAPSTONE PROJECT for CS390 WEB APPLICATION PROGRAMMING @ PURDUE UNIVERSITY
 
-## About our project
+## Project Overview
 Can't decide what to wear? Clueless Outfit Picker is an application that will help you choose an outfit based off of a single prompt!
 
 What it includes
@@ -14,6 +14,7 @@ What it includes
 ## Building the Project
 Clone the project
 
+### Install Dependencies
 To build the frontend
 ```
 cd frontend && npm install
@@ -24,11 +25,13 @@ To build the backend
 ```
 cd backend && npm install
 ```
-(ii)
+
+### Environment Variables
 Create an .env file with:
 1. Your OpenAI API key
 2. Your MongoDB URI (connection)
 3. Port set as 8000 (PORT=8000)
+4. A randomly generated JWT_SECRET key for authentication tokens
 
 ## Running the Project
 #### Frontend
