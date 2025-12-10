@@ -1,5 +1,10 @@
 # Clueless Outfit Picker 🛍️👚👗👔👖
 Welcome to our CAPSTONE PROJECT for CS390 WEB APPLICATION PROGRAMMING @ PURDUE UNIVERSITY
+By:
+- Hanako Keney
+- Bhavya Venkataraghavan
+- Sejal Verma
+- Chelsea Lee
 
 ## Project Overview
 Can't decide what to wear? Clueless Outfit Picker is an application that will help you choose an outfit based on a single prompt or view your entire wardrobe at your fingertips!
