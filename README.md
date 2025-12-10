@@ -2,14 +2,14 @@
 Welcome to our CAPSTONE PROJECT for CS390 WEB APPLICATION PROGRAMMING @ PURDUE UNIVERSITY
 
 ## Project Overview
-Can't decide what to wear? Clueless Outfit Picker is an application that will help you choose an outfit based off of a single prompt!
+Can't decide what to wear? Clueless Outfit Picker is an application that will help you choose an outfit based on a single prompt or view your entire wardrobe at your fingertips!
 
-What it includes
-1. A outfit generation service which allows useres to prompt OpenAI's gpt-4o-mini model for an outfit 👕✨
+### Features
+1. An outfit generation service which allows users to prompt OpenAI's gpt-4o-mini model for an outfit 👕✨
 2. Account creation to allow users to:
     a. Save their generated outfits ⬇️
-    b. Add items they have in their wardrobe to view to create their own outfits ➕👖
-3. A wardrobe that usese a set of tags to filter through the user's items 🏷️🏷️🏷️
+    b. Add items they have in their wardrobe to to create their own outfits ➕👖
+3. A wardrobe that uses a set of tags to filter through the user's items 🏷️🏷️🏷️
 
 ## Building the Project
 Clone the project
@@ -51,7 +51,7 @@ cd backend && node Server.js
 
 We used React for its component-based architecture, which makes the UI modular, reusable, and easier to maintain. Its strong ecosystem and modern development patterns are ideal for building interactive user interfaces like the prompt form, outfit display cards, and wardrobe components.
 
-We decided to use vite as the build tool because it offers extremely fast dev server startup and hot-module reloading. This significantly improves development speed compared to older bundlers like Webpack.
+We decided to use Vite as the build tool because it offers extremely fast dev server startup and hot-module reloading. This significantly improves development speed compared to older bundlers like Webpack.
 
 ### Backend – Express, Node.js
 
