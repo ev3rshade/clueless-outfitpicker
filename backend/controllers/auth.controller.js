@@ -2,12 +2,23 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
+// Email validation regex
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isValidEmail = (email) => {
+  return emailRegex.test(email);
+};
+
 export const signup = async (req, res) => {
   try {
     const { email, name, age, password } = req.body;
 
     if (!email || !name || !age || !password) {
       return res.status(400).json({ error: "All fields required" });
+    }
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
     }
 
     const existingEmail = await User.findOne({ email });
@@ -36,6 +47,10 @@ export const login = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password required" });
+    }
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
     }
 
     const user = await User.findOne({ email });
