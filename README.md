@@ -6,10 +6,20 @@ Can't decide what to wear? Clueless Outfit Picker is an application that will he
 
 ### Features
 1. An outfit generation service which allows users to prompt OpenAI's gpt-4o-mini model for an outfit 👕✨
+
+![alt text](screenshots/Screenshot%202025-12-10%20175156.png)
+
+
 2. Account creation to allow users to:
     a. Save their generated outfits ⬇️
     b. Add items they have in their wardrobe to to create their own outfits ➕👖
+
+![alt text](screenshots/Screenshot%202025-12-10%20175131.png)
+
+
 3. A wardrobe that uses a set of tags to filter through the user's items 🏷️🏷️🏷️
+
+![alt text](screenshots/Screenshot%202025-12-10%20175110.png)
 
 ## Building the Project
 Clone the project
