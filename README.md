@@ -49,16 +49,16 @@ Create an .env file with:
 4. A randomly generated JWT_SECRET key for authentication tokens
 
 ## Running the Project
-#### Frontend
-run:
-```
-cd frontend && npm run dev
-```
-
 #### Backend
 run:
 ```
 cd backend && node Server.js
+```
+
+#### Frontend
+run:
+```
+cd frontend && npm run dev
 ```
 
 ## Technologies Used in the Project
